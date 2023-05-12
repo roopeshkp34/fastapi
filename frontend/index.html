@@ -15,8 +15,8 @@
     <div class="container mt-5 mb-5 d-flex justify-content-center">
         <div class="card px-1 py-4">
             <div class="card-body">
-                <h6 class="card-title mb-3">This appointment is for</h6>
-                <div class="d-flex flex-row"> <label class="radio mr-1"> <input type="radio" name="add" value="anz" checked> <span> <i class="fa fa-user"></i> Anz CMK </span> </label> <label class="radio"> <input type="radio" name="add" value="add"> <span> <i class="fa fa-plus-circle"></i> Add </span> </label> </div>
+                <h6 class="card-title mb-3 justify-center">LOGIN</h6>
+                <!-- <div class="d-flex flex-row"> <label class="radio mr-1"> <input type="radio" name="add" value="anz" checked> <span> <i class="fa fa-user"></i> Anz CMK </span> </label> <label class="radio"> <input type="radio" name="add" value="add"> <span> <i class="fa fa-plus-circle"></i> Add </span> </label> </div> -->
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group">
@@ -52,7 +52,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
     $(document).ready(function(){
-        $("#login").click(function(){
+        if(check_me()){
+            window.location.replace("test.html")
+        }else{
+            $("#login").click(function(){
             username = $("#username").val();
             password = $("#password").val();
             console.log(username, password);
@@ -64,11 +67,26 @@
             .done(function(response){
                 // var json_data=JSON.parse(response);
                 console.log("json", response);
+                if(response["access_token"]){
+                    window.localStorage.setItem("token", response["token_type"]+" "+response["access_token"]);
+                    window.location.replace("home.html")
+                }
             })
             .fail(function(){
-                alert("Error in Fetching Employee")
+                console.log("error");
             })
         });
+        }
+        
     });
+
+    function check_me(){
+        token = window.localStorage.getItem("token");
+        if(token){
+            return true;
+        }else{
+            return false;
+        }
+    }
 </script>
 </html>

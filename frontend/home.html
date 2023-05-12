@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 id="title">HI</h1>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+        if(check_me()){
+            token = window.localStorage.getItem("token");
+            $.ajax({
+                url: "http://127.0.0.1:8000/v1/user/me",
+                type: "GET",
+                headers: {
+                    "Authorization": token
+                },
+            })
+            .done(function(response){
+                $("#title").html("HI " + response["username"]);
+            })
+            .fail(function(){
+                console.log("failed");
+            })
+        }else{
+            window.location.replace("index.html")
+        }
+    })
+    function check_me(){
+        token = window.localStorage.getItem("token");
+        if(token){
+            return true;
+        }else{
+            return false;
+        }
+    }
+</script>
+</html>
