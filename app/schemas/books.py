@@ -1,7 +1,9 @@
 
 
 from datetime import datetime
+from typing import List
 from pydantic import BaseModel
+from app.schemas.base import BaseResponse
 
 class BookBase(BaseModel):
     title: str
@@ -22,3 +24,5 @@ class BookCreateBase(BaseModel):
 class BookCreateDB(BookCreateBase):
     user: int
     
+class Book(BaseResponse):
+    result: List[BookResponse]
